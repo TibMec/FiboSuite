@@ -1,15 +1,22 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import View.UserView;
+
+// ne pas sortir après InputMismatchException
+// has Int ?
+// finir comment, JavDoc
+// bien afficher recursion ? manque debut
+// package Test ?
+// need Test pour UserView
+// timer adapté aux mesures
+// améliorer qT & Qt des tests
+// changer le TimePerfMeasurer pour methode plus précise
+// comparer les deux méthodes
+// push ameliorations sur Git
+// Set vs String (equals ?)
+// Historique doit pas dépendre du prompt iterations
+// Comparer perf par booleen, pas à vue
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
-
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        UserView.userPrompt();
     }
 }
