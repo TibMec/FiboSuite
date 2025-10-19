@@ -1,31 +1,30 @@
 package Model;
 
-import java.time.Duration;
-import java.time.Instant;
-
 public class TimePerfMeasurer {
 
     public TimePerfMeasurer(){}
 
-    public static String methodPerf(Runnable method, String methodName){
-        String result = "";
-
+    /**
+     * @param method = la méthode dont la performance de vitesse sera évaluée
+     * @return la durée en nanoSecondes de la méthode
+     */
+    public static long methodDuration(Runnable method){
         long start = System.nanoTime();
         method.run();
         long end = System.nanoTime();
         long durationNs = end - start;
 
-        if(durationNs < 1000){
-            result = String.format("%s a duré %d ns",
-                    methodName, durationNs);
-        } else if (durationNs < 1000000){
-            result = String.format("%s a duré %.2f μs",
-                    methodName, durationNs/1000.0);
-        } else if (durationNs < 1000000000){
-            result = String.format("%s a duré %.2f ms",
-                    methodName, durationNs/1000000.0);
-        }
-        return result;
+        return durationNs;
+    }
+
+    /**
+     *
+     * @param d1 = durée de la méthode1
+     * @param d2 = durée de la méthode 2
+     * @return true si d1 moins rapide que d2, false le cas contraire
+     */
+    public static boolean perfComparison(long d1, long d2){
+        return d1 > d2;
     }
 
 }

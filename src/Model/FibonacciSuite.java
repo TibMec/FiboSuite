@@ -29,7 +29,7 @@ public class FibonacciSuite {
     /**
      * Calcule le N-ieme terme de la suite et met à jour la liste de termes
      * @param iterations = vise un terme précis de la suite
-     * @return Retourne le terme visé, calculé par une boucle for
+     * @return le terme visé, calculé par une boucle for
      * Type = long car au bout de 45 itérations on atteint la limite de int
      */
     public static long loopCalcul(int iterations){
@@ -43,6 +43,12 @@ public class FibonacciSuite {
         }
         return totalSuite;
     }
+
+    /**
+     * Comme la méthode loopCalcul, avec des détails à chaque itération
+     * @param iterations
+     * @return le terme visé
+     */
     public static long loopCalculStepByStep(int iterations){
         suite.clear();
         long nombre1 = 1, nombre2 = 1, totalSuite = 0;

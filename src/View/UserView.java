@@ -3,14 +3,38 @@ package View;
 import Model.FibonacciSuite;
 import Model.TimePerfMeasurer;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.*;
 
 import static java.lang.System.exit;
 
 public class UserView {
     private static Set<String> historiquePerformance= new TreeSet<>();
+    static long duration = 0;
+    public static String perfView(long durationNs,String methodName){
+        String perfMessage = "";
+
+        if(durationNs < 1000){
+            perfMessage = String.format("%s a duré %d ns",
+                    methodName, durationNs);
+        } else if (durationNs < 1000000){
+            perfMessage = String.format("%s a duré %.2f μs",
+                    methodName, durationNs/1000.0);
+        } else if (durationNs < 1000000000){
+            perfMessage = String.format("%s a duré %.2f ms",
+                    methodName, durationNs/1000000.0);
+        }
+        return perfMessage;
+    }
+
+    public static String comparisonView(boolean durCompare, String d1Name, String d2Name){
+        String result;
+        if(durCompare)
+            result = String.format("%s a été plus rapide que %s", d2Name, d1Name);
+        else
+            result = String.format("%s a été plus rapide que %s", d1Name, d2Name);
+        return result;
+    }
+
     public static void userPrompt(){
         try {
             Scanner sc = new Scanner(System.in);
@@ -42,9 +66,10 @@ public class UserView {
                 switch(choix){
                     case 1:
                         final int n = iterations;
-                        System.out.println(TimePerfMeasurer.methodPerf(()-> {
+                         duration = TimePerfMeasurer.methodDuration(()-> {
                             FibonacciSuite.loopCalculStepByStep(n);
-                            }, "loopCalculStepByStep"));
+                            });
+                        System.out.println(perfView(duration, "loopCalculStepByStep"));
                         List<Long> suite = FibonacciSuite.getSuite();
                         long result = suite.get(suite.size() - 1);
                         System.out.println(String.format(Locale.US,"La suite après %d iterations donne %,d: %s",
@@ -54,9 +79,10 @@ public class UserView {
                         break;
                     case 2:
                         final int n2 = iterations;
-                        System.out.println(TimePerfMeasurer.methodPerf(()-> {
+                         duration = TimePerfMeasurer.methodDuration(()-> {
                             FibonacciSuite.loopCalcul(n2);
-                            }, "loopCalcul"));
+                        });
+                        System.out.println(perfView(duration, "loopCalcul"));
                         List<Long> suite2 = FibonacciSuite.getSuite();
                         long result2 = suite2.get(suite2.size() - 1);
                         System.out.println(String.format(Locale.US,"La suite après %d iterations donne %,d: %s",
@@ -67,22 +93,32 @@ public class UserView {
                     case 3:
                         final int n3 = iterations;
                         FibonacciSuite.getSet().clear();
-                        System.out.println(TimePerfMeasurer.methodPerf(()-> {
+                        duration = TimePerfMeasurer.methodDuration(()-> {
                             FibonacciSuite.recurCalcul(n3);
-                        }, "recurCalcul"));
+                        });
+                        System.out.println(perfView(duration, "recurCalcul"));
                         long result3 = FibonacciSuite.recurCalcul(iterations);
                         System.out.println(String.format(Locale.US,"La suite après %d iterations donne %,d: %s",
                                 iterations, result3, FibonacciSuite.getSet()));
                         break;
                     case 4:
                         final int n4 = iterations;
-                        String resLoop = TimePerfMeasurer.methodPerf(()-> {
+                        long d1, d2;
+                        duration = TimePerfMeasurer.methodDuration(()-> {
                             FibonacciSuite.loopCalcul(n4);
-                        }, "loopCalcul");
-                        String resRecur = TimePerfMeasurer.methodPerf(()-> {
+                        });
+                        d1 = duration;
+                        String resLoop = perfView(duration, "loopCalcul");
+
+                        duration = TimePerfMeasurer.methodDuration(()-> {
                             FibonacciSuite.recurCalcul(n4);
-                        }, "recurCalcul");
-                        String comparaison = String.format("\nPour %d itérations, \n\t%s \n\t%s",n4,resLoop,resRecur);
+                        });
+                        d2 =duration;
+                        String resRecur = perfView(duration, "recurCalcul");
+
+                        boolean durCompare = TimePerfMeasurer.perfComparison(d1,d2);
+                        String perfComp = comparisonView(durCompare,"loopCalcul","recurCalcul");
+                        String comparaison = String.format("\nPour %d itérations, \n\t%s \n\t%s \n\t%s",n4,resLoop,resRecur,perfComp);
                         historiquePerformance.add(comparaison);
                         System.out.println(comparaison);
                         break;
