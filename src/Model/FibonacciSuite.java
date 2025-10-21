@@ -72,8 +72,10 @@ public class FibonacciSuite {
         long nombre1, nombre2, totalSuite = 0;
         if (iterations == 0)
             return 1;
-        else if (iterations == 1)
+        else if (iterations == 1){
+            set.add(2L);
             return 2;
+        }
         else {
             nombre1 = recurCalcul(iterations - 2);
             nombre2 = recurCalcul(iterations - 1);

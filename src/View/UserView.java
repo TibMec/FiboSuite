@@ -68,12 +68,12 @@ public class UserView {
                     }
                     System.out.println("______________________________________________");
                     System.out.println("| Veuillez choisir une option:                |\\");
-                    System.out.println("| \t1. Calcul par boucle, étapes détaillées   ||");
-                    System.out.println("| \t2. Calcul par boucle                      ||");
-                    System.out.println("| \t3. Calcul par récursion                   ||");
-                    System.out.println("| \t4. Comparer performance des méthodes      ||");
-                    System.out.println("| \t5. Consulter historique des comparaisons  ||");
-                    System.out.println("| \t0. Quitter                                ||");
+                    System.out.println("|   1. Calcul par boucle, étapes détaillées   ||");
+                    System.out.println("|   2. Calcul par boucle                      ||");
+                    System.out.println("|   3. Calcul par récursion                   ||");
+                    System.out.println("|   4. Comparer performance des méthodes      ||");
+                    System.out.println("|   5. Consulter historique des comparaisons  ||");
+                    System.out.println("|   0. Quitter                                ||");
                     System.out.println(" \\============================================\\|");
                     choix = sc.nextInt();
                 } catch (InputMismatchException e) {
