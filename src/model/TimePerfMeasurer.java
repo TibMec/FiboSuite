@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class TimePerfMeasurer {
 
@@ -23,7 +23,7 @@ public class TimePerfMeasurer {
      * @param d2 = durée de la méthode 2
      * @return true si d1 moins rapide que d2, false le cas contraire
      */
-    public static boolean perfComparison(long d1, long d2){
+    public static boolean isSlower(long d1, long d2){
         return d1 > d2;
     }
 

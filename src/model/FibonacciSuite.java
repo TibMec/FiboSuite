@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.*;
 
@@ -83,5 +83,9 @@ public class FibonacciSuite {
             set.add(totalSuite);
             return totalSuite;
         }
+    }
+
+    public void clearSet() {
+        set.clear();
     }
 }
