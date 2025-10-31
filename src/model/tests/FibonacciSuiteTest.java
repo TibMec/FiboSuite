@@ -2,11 +2,17 @@ package model.tests;
 
 import model.FibonacciSuite;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Classe pour tester les méthodes de FibonacciSuite
+ */
 class FibonacciSuiteTest {
     FibonacciSuite suite = new FibonacciSuite();
+
+    /**
+     * Teste si la suite retourne bien les résultats attendus
+     */
     @Test
     void loopCalculTest() {
         assertEquals(0, suite.loopCalcul(0));
@@ -17,6 +23,9 @@ class FibonacciSuiteTest {
         assertEquals(-6246583658587674878L, suite.loopCalcul(91));
     }
 
+    /**
+     * Teste si la suite retourne bien les résultats attendus
+     */
     @Test
     void recurCalculTest() {
         assertEquals(1, suite.recurCalcul(0));

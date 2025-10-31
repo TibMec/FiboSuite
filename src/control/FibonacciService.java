@@ -6,7 +6,6 @@ import view.MeasureView;
 import view.UserView;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 /**
  * Classe qui fait le lien entre la vue et le modèle
@@ -38,7 +37,7 @@ public class FibonacciService {
      * @param stepByStep = true si methode loopCalculStepByStep, false si loopCalcul
      * @return le résultat de la methode loopCalculStepByStep ou loopCalcul
      */
-    public long executeLoopCalcul(int iterations, boolean stepByStep) {
+    public long showLoopCalcul(int iterations, boolean stepByStep) {
         long result =  stepByStep
                 ? fibo.loopCalculStepByStep(iterations)
                 : fibo.loopCalcul(iterations);
@@ -51,7 +50,7 @@ public class FibonacciService {
      * @param iterations = vise un terme précis de la suite
      * @return le résultat de la methode recurCalcul
      */
-    public long executeRecurCalcul(int iterations) {
+    public long showRecurCalcul(int iterations) {
         fibo.clearSet();
         long result = fibo.recurCalcul(iterations);
         view.showCollection(fibo.getSet());

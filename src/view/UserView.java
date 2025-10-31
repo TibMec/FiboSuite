@@ -57,9 +57,9 @@ public class UserView {
                 int iterations = sc.nextInt();
 
                 switch (choix) {
-                    case 1 -> System.out.println(fibService.executeLoopCalcul(iterations, true));
-                    case 2 -> System.out.println(fibService.executeLoopCalcul(iterations, false));
-                    case 3 -> System.out.println(fibService.executeRecurCalcul(iterations));
+                    case 1 -> System.out.println(fibService.showLoopCalcul(iterations, true));
+                    case 2 -> System.out.println(fibService.showLoopCalcul(iterations, false));
+                    case 3 -> System.out.println(fibService.showRecurCalcul(iterations));
                     case 4 -> System.out.println(fibService.comparePerformances(iterations));
                     default -> System.out.println("Tapez seulement un chiffre présenté dans les options !");
                 }
