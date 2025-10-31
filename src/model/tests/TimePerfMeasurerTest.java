@@ -1,11 +1,12 @@
-package model;
+package model.tests;
 
+import model.TimePerfMeasurer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TimePerfMeasurerTest {
-
+    TimePerfMeasurer measurer = new TimePerfMeasurer();
     @Test
     void methodDurationTest() {
 //        assertEquals();
@@ -13,7 +14,7 @@ class TimePerfMeasurerTest {
 
     @Test
     void perfComparisonTest() {
-        assertTrue(TimePerfMeasurer.perfComparison(5,2));
-        assertFalse(TimePerfMeasurer.perfComparison(2,5));
+        assertTrue(measurer.isSlower(5,2));
+        assertFalse(measurer.isSlower(2,5));
     }
 }

@@ -2,55 +2,80 @@ package control;
 
 import model.FibonacciSuite;
 import model.TimePerfMeasurer;
+import view.MeasureView;
+import view.UserView;
 
 import java.util.*;
+import java.util.function.Supplier;
 
+/**
+ * Classe qui fait le lien entre la vue et le modèle
+ */
 public class FibonacciService {
-    private final FibonacciSuite fibo;
-    private final TimePerfMeasurer perf;
-    private final List<String> historique = new ArrayList<>();
+    private FibonacciSuite fibo;
+    private TimePerfMeasurer perf;
+    private static final List<String> HISTORY = new ArrayList<>();
+    private UserView view;
+    private MeasureView measureView;
 
     public FibonacciService() {
+    }
+
+    public FibonacciService(UserView view) {
         this.fibo = new FibonacciSuite();
         this.perf = new TimePerfMeasurer();
+        this.measureView = new MeasureView();
+        this.view = view;
     }
 
-    public List<String> getHistorique() {
-        return historique;
+    public List<String> getHistory() {
+        return HISTORY;
     }
 
-    public long executeLoopCalcul(int n, boolean stepByStep) {
-        return stepByStep
-                ? fibo.loopCalculStepByStep(n)
-                : fibo.loopCalcul(n);
+    /**
+     * Choisit la fonction loopCalcul appropriée et donne la liste obtenue à la vue pour affichage
+     * @param iterations = vise un terme précis de la suite
+     * @param stepByStep = true si methode loopCalculStepByStep, false si loopCalcul
+     * @return le résultat de la methode loopCalculStepByStep ou loopCalcul
+     */
+    public long executeLoopCalcul(int iterations, boolean stepByStep) {
+        long result =  stepByStep
+                ? fibo.loopCalculStepByStep(iterations)
+                : fibo.loopCalcul(iterations);
+        view.showCollection(fibo.getSuite());
+        return result;
     }
 
-    public long executeRecurCalcul(int n) {
+    /**
+     * Vide le set pour y placer les resultats de recurCalcul et donne le set obtenu à la vue pour affichage
+     * @param iterations = vise un terme précis de la suite
+     * @return le résultat de la methode recurCalcul
+     */
+    public long executeRecurCalcul(int iterations) {
         fibo.clearSet();
-        return fibo.recurCalcul(n);
+        long result = fibo.recurCalcul(iterations);
+        view.showCollection(fibo.getSet());
+        return result;
     }
 
-    public long loopPerf(int n) {
-        return perf.methodDuration(() -> fibo.loopCalcul(n));
-    }
+    /**
+     * Retourne un message comparant les mesures de durées de 2 méthodes et l'ajoute à l'historique
+     * @param iterations = vise un terme précis de la suite
+     * @return message comparant les mesures de durées de 2 méthodes
+     */
+    public String comparePerformances(int iterations) {
+        long duration1 = perf.methodDuration(() -> fibo.loopCalcul(iterations));
+        long duration2 = perf.methodDuration(() -> fibo.recurCalcul(iterations));
 
-    public long recurPerf(int n) {
-        return perf.methodDuration(() -> fibo.recurCalcul(n));
-    }
+        String slower = perf.isSlower(duration1, duration2) ?
+                "recurCalcul a été plus rapide"
+                : "loopCalcul a été plus rapide";
 
-    public void comparePerformances(int n) {
-        long duration1 = loopPerf(n);
-        long duration2 = recurPerf(n);
-        boolean slower = perf.isSlower(duration1, duration2);
+        String resLoop = measureView.perfView(duration1,"loopCalcul");
+        String resRecur = measureView.perfView(duration2,"recurCalcul");
+        String comparaison = String.format("\nPour %d itérations, \n\t%s \n\t%s \n\t%s",iterations,resLoop,resRecur,slower);
 
-        String comparaison = String.format(
-                Locale.US,
-                "\nPour %d itérations :\n\tloopCalcul = %.2f ms\n\trecurCalcul = %.2f ms\n\t%s",
-                n, duration1 / 1_000_000.0, duration2 / 1_000_000.0,
-                slower ? "recurCalcul plus rapide" : "loopCalcul plus rapide"
-        );
-
-        historique.add(comparaison);
-        System.out.println(comparaison);
+        HISTORY.add(comparaison);
+        return comparaison;
     }
 }
